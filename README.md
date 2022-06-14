@@ -2,9 +2,10 @@
 
 # OOP school library: add Person, Student and Teacher classes
 
-> In this project, I started building school library app. In this initial step, I implemented the classes to represent students and teachers.
+> In this project, 
 
 ## Project Requirement I:
+>> I started building school library app. In this initial step, I implemented the classes to represent students and teachers.
 
 * I Created a Person class with the following parameters:
 
@@ -28,6 +29,37 @@
       -> Override can_use_services? so it always returns true.
 
 * Each class has saved in a separate file.
+
+## Project Requirement II:
+>>  I used the Decorator design pattern to correct the names of people.
+
+**Interface**
+***
+* Create a class Nameable.
+            
+      -> A method called correct_name is implemented which raise a NotImplementedError.
+
+* Turn your Person class to Nameable
+
+      -> Person class is inherits from Nameable
+      -> This class has a method correct_name implemented to simply return the name attribute.
+
+* Prepare base Decorator
+            
+      -> it inherits from Nameable.
+      -> In the constructor a nameable object is assigned from params to an instance variable.
+      -> The correct_name method is implemented to returns the result of the correct_name method of the @nameable.
+
+**Prepare CapitalizeDecorator and TrimmerDecorator**
+***
+* For the CapitalizeDecorator:
+
+      -> This class  inherits from the base Decorator class.
+      -> A method correct_name is implemented to capitalizes the output of @nameable.correct_name.
+* For the TrimmerDecorator:
+
+      -> This class inherits from the base Decorator class.
+      -> A method correct_name is implemented tp makes sure that the output of @nameable.correct_name has a maximum of 10 characters. If it's longer it should trim the word.
 
 ## Authors
 
