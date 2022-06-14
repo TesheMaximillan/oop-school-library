@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# University Locator
+# OOP school library: add Person, Student and Teacher classes
 
 > In this project, I started building school library app. In this initial step, I implemented the classes to represent students and teachers.
 
