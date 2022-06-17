@@ -72,6 +72,15 @@ class App
     create_person_object(select_person)
   end
 
+  def display_person(person)
+    type = '[Student]'
+    type = '[Teacher]' unless person == @student
+
+    if !person.empty?
+      person.each { |p| puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}" }
+    end
+  end
+
   def actions
     print "\n[Input] > "
     user_input = gets.chomp
