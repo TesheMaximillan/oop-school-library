@@ -121,6 +121,17 @@ class App
     puts "\n> Rental crated successfully\n\n"
   end
 
+  def display_rental
+    print 'ID of person: '
+    id = gets.chomp.to_i
+    puts "Rentals:"
+    @rentals.each do |rent|
+      if rent.person.id == id
+        puts "Date: #{rent.date}, Book \"#{rent.book.title}\" by #{rent.book.author}"
+      end
+    end
+  end
+
   def actions
     print "\n[Input] > "
     user_input = gets.chomp
