@@ -3,6 +3,7 @@ require_relative 'teacher'
 require_relative 'book'
 require_relative 'rental'
 require_relative 'utility'
+require 'pry'
 
 class App
   attr_reader :teacher, :student, :book, :rentals
@@ -31,13 +32,13 @@ class App
     title = gets.chomp
     print 'Author: '
     author = gets.chomp
-
+    
     @book << Book.new(title, author)
     puts "\n> Book crated successfully\n\n"
   end
 
   def display_book
-    return if @book.empty?
+    return if book.empty?
 
     puts
     @book.each { |b| puts "Title: #{b.title}\t\tAuthor: #{b.author}" }
