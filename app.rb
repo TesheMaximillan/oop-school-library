@@ -133,7 +133,7 @@ class App
   end
 
   def actions
-    print "\n[Input] > "
+    print "\n[Menu] > "
     user_input = gets.chomp
 
     case user_input
