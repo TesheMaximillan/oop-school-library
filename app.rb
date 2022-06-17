@@ -47,4 +47,15 @@ class App
       return 'Exit'
     end
   end
+
+  def run
+    user_input = ''
+    puts "\nWelcome to School library APP!"
+
+    while user_input != 'Exit'
+      menu()
+      user_input = actions()
+    end
+    puts "\nThank you for using this app!"
+  end
 end
