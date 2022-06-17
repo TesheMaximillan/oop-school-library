@@ -33,6 +33,14 @@ class App
     puts "\n> Book crated successfully\n\n"
   end
 
+  def display_book
+    if !@book.empty?
+      puts
+      @book.each { |b| puts "Title: #{b.title}\t\tAuthor: #{b.author}" }
+      puts
+    end
+  end
+
   def actions
     print "\n[Input] > "
     user_input = gets.chomp
