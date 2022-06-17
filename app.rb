@@ -38,10 +38,10 @@ class App
   end
 
   def display_book
-    return if book.empty?
+    return if @book.empty?
 
     puts
-    @book.each { |b| puts "Title: #{b.title}\t\tAuthor: #{b.author}" }
+    @book.each { |b| put "Title: #{b.title}\t\tAuthor: #{b.author}" }
     puts
   end
 
