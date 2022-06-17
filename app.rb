@@ -81,6 +81,46 @@ class App
     end
   end
 
+  def rental_book_menu
+    if !@book.empty?
+      @book.each_with_index do |b, i|
+        puts "#{i}) Title: #{b.title}\t\tAuthor: #{b.author}"
+      end
+    end
+  end
+
+  def rental_person_menu
+    if !@student.empty?
+      @student.each_with_index do |p, i|
+        puts "#{i}) [Student] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
+      end
+    end
+
+    if !@teacher.empty?
+      j = student.length
+      @teacher.each_with_index do |p, i|
+        puts "#{i + j}) [Teacher] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
+      end
+    end
+  end
+
+  def create_rental
+    puts 'Select a book from the following list by number'
+    rental_book_menu()
+    selected_book = gets.chomp.to_i
+
+    person = []
+    person.concat(@student).concat(@teacher)
+    puts 'Select a person from the following list by number (not id)'
+    rental_person_menu()
+
+    selected_person = gets.chomp.to_i
+    print "\nDate: "
+    date = gets.chomp
+    @rentals << Rental.new(date, @book[selected_book], person[selected_person])
+    puts "\n> Rental crated successfully\n\n"
+  end
+
   def actions
     print "\n[Input] > "
     user_input = gets.chomp
