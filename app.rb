@@ -23,4 +23,28 @@ class App
     print "5. Create a rental\n6. List all rentals for a given person id\n7. Exit\n"
   end
 
+  def actions
+    print "\n[Input] > "
+    user_input = gets.chomp
+
+    case user_input
+    when '1'
+      display_book()
+    when '2'
+      puts
+      display_person(@student)
+      display_person(@teacher)
+      puts
+    when '3'
+      create_person()
+    when '4'
+      create_book()
+    when '5'
+      create_rental()
+    when '6'
+      display_rental()
+    when '7'
+      return 'Exit'
+    end
+  end
 end
