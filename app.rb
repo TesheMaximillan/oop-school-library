@@ -2,9 +2,12 @@ require_relative 'student'
 require_relative 'teacher'
 require_relative 'book'
 require_relative 'rental'
+require_relative 'utility'
 
 class App
   attr_reader :teacher, :student, :book, :rentals
+
+  include Utility
 
   def initialize
     @teacher = []
@@ -42,8 +45,7 @@ class App
   end
 
   def create_person_object(person_type)
-    print 'Age: '
-    age = gets.chomp
+    age = proper_age
     print 'Name: '
     name = gets.chomp
 
@@ -81,41 +83,19 @@ class App
     person.each { |p| puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}" }
   end
 
-  def rental_book_menu
-    @book.each_with_index do |b, i|
-      puts "#{i}) Title: #{b.title}\t\tAuthor: #{b.author}"
-    end
-  end
-
-  def rental_person_menu
-    unless @student.empty?
-      @student.each_with_index do |p, i|
-        puts "#{i}) [Student] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
-      end
-    end
-
-    return if @teacher.empty?
-
-    j = @student.length
-    @teacher.each_with_index do |p, i|
-      puts "#{i + j}) [Teacher] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
-    end
-  end
-
   def create_rental
-    puts 'Select a book from the following list by number'
-    return if @book.empty? || @student.concat(@teacher).empty?
-
-    rental_book_menu
-    selected_book = gets.chomp.to_i
-
     person = []
     person.concat(@student).concat(@teacher)
+    return if @book.empty? || person.empty?
+
+    puts 'Select a book from the following list by number'
+    rental_book_menu
+    selected_book = check_book_availability.to_i
+
     puts 'Select a person from the following list by number (not id)'
+    rental_person_menu(person)
+    selected_person = check_person_availability.to_i
 
-    rental_person_menu
-
-    selected_person = gets.chomp.to_i
     print "\nDate: "
     date = gets.chomp
     @rentals << Rental.new(date, @book[selected_book], person[selected_person])
