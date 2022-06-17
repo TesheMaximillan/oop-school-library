@@ -93,6 +93,25 @@
       -> Create the has-many side of Person and Rental (a person has many rentals).
       -> Create the belongs-to side of Rental and Person (a rental belongs to a person).
       -> Modify the constructor of Rental so Book and Person are set in it.
+
+## Project Requirement IV
+***
+>> I create a form of UI for school library app. Also, there is a main executable file to invoke the initiate the app.
+
+* `app.rb` file that will serve as your console app entry-point. It should have methods that do the following:
+
+      -> List all books.
+      -> List all people.
+      -> Create a person (teacher or student, not a plain Person).
+      -> Create a book.
+      -> Create a rental.
+      -> List all rentals for a given person id.
+* The entry point is defined in `main.rb` file, this method should do the following:
+
+      -> Present the user with a list of options to perform.
+      -> Lets users choose an option.
+      -> Ask for parameters for the option.
+      -> Their is an exit option to quit the app.
 ## Authors
 
 👤 **Teshome Kurabachew**

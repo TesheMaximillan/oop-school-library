@@ -34,11 +34,11 @@ class App
   end
 
   def display_book
-    if !@book.empty?
-      puts
-      @book.each { |b| puts "Title: #{b.title}\t\tAuthor: #{b.author}" }
-      puts
-    end
+    return if @book.empty?
+
+    puts
+    @book.each { |b| puts "Title: #{b.title}\t\tAuthor: #{b.author}" }
+    puts
   end
 
   def create_person_object(person_type)
@@ -50,14 +50,14 @@ class App
     if person_type == '1'
       print 'Has parent permission? [Y/N]: '
       permission = gets.chomp.downcase
-      permission == 'n' ? permission = false : permission = true
+      permission = permission != 'n'
       print 'Classroom: '
       classroom = gets.chomp
-      @student << Student.new(age, classroom, name, permission)
+      @student << Student.new(age, classroom, permission, name)
     else
       print 'Specialization: '
       specialization = gets.chomp
-      @teacher << Teacher.new(age, specialization, name, permission)
+      @teacher << Teacher.new(age, specialization, true, name)
     end
     puts "\n> Person crated successfully\n\n"
   end
@@ -76,43 +76,44 @@ class App
     type = '[Student]'
     type = '[Teacher]' unless person == @student
 
-    if !person.empty?
-      person.each { |p| puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}" }
-    end
+    return if person.empty?
+
+    person.each { |p| puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}" }
   end
 
   def rental_book_menu
-    if !@book.empty?
-      @book.each_with_index do |b, i|
-        puts "#{i}) Title: #{b.title}\t\tAuthor: #{b.author}"
-      end
+    @book.each_with_index do |b, i|
+      puts "#{i}) Title: #{b.title}\t\tAuthor: #{b.author}"
     end
   end
 
   def rental_person_menu
-    if !@student.empty?
+    unless @student.empty?
       @student.each_with_index do |p, i|
         puts "#{i}) [Student] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
       end
     end
 
-    if !@teacher.empty?
-      j = student.length
-      @teacher.each_with_index do |p, i|
-        puts "#{i + j}) [Teacher] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
-      end
+    return if @teacher.empty?
+
+    j = student.length
+    @teacher.each_with_index do |p, i|
+      puts "#{i + j}) [Teacher] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
     end
   end
 
   def create_rental
     puts 'Select a book from the following list by number'
-    rental_book_menu()
+    return if @book.empty? || @student.concat(@teacher).empty?
+
+    rental_book_menu
     selected_book = gets.chomp.to_i
 
     person = []
     person.concat(@student).concat(@teacher)
     puts 'Select a person from the following list by number (not id)'
-    rental_person_menu()
+
+    rental_person_menu
 
     selected_person = gets.chomp.to_i
     print "\nDate: "
@@ -124,37 +125,39 @@ class App
   def display_rental
     print 'ID of person: '
     id = gets.chomp.to_i
-    puts "Rentals:"
+    puts 'Rentals:'
     @rentals.each do |rent|
-      if rent.person.id == id
-        puts "Date: #{rent.date}, Book \"#{rent.book.title}\" by #{rent.book.author}"
-      end
+      next if rent.person.id != id
+
+      puts "Date: #{rent.date}, Book \"#{rent.book.title}\" by #{rent.book.author}"
     end
   end
 
-  def actions
-    print "\n[Menu] > "
-    user_input = gets.chomp
-
-    case user_input
+  def sub_menu(input)
+    case input
     when '1'
-      display_book()
+      display_book
     when '2'
       puts
       display_person(@student)
       display_person(@teacher)
       puts
     when '3'
-      create_person()
+      create_person
     when '4'
-      create_book()
+      create_book
     when '5'
-      create_rental()
+      create_rental
     when '6'
-      display_rental()
-    when '7'
-      return 'Exit'
+      display_rental
     end
+  end
+
+  def actions
+    print "\n[Menu] > "
+    user_input = gets.chomp
+    sub_menu(user_input)
+    'Exit' if user_input == '7'
   end
 
   def run
@@ -162,8 +165,8 @@ class App
     puts "\nWelcome to School library APP!"
 
     while user_input != 'Exit'
-      menu()
-      user_input = actions()
+      menu
+      user_input = actions
     end
     puts "\nThank you for using this app!"
   end
