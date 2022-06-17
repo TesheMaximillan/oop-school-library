@@ -41,6 +41,37 @@ class App
     end
   end
 
+  def create_person_object(person_type)
+    print 'Age: '
+    age = gets.chomp
+    print 'Name: '
+    name = gets.chomp
+
+    if person_type == '1'
+      print 'Has parent permission? [Y/N]: '
+      permission = gets.chomp.downcase
+      permission == 'n' ? permission = false : permission = true
+      print 'Classroom: '
+      classroom = gets.chomp
+      @student << Student.new(age, classroom, name, permission)
+    else
+      print 'Specialization: '
+      specialization = gets.chomp
+      @teacher << Teacher.new(age, specialization, name, permission)
+    end
+    puts "\n> Person crated successfully\n\n"
+  end
+
+  def create_person
+    print 'Do you want to crate a student (1) or a teacher (2)? [Input the number]: '
+    select_person = gets.chomp
+    if select_person != '1' && select_person != '2'
+      puts "\n>>>> Please insert [1] or [2] <<<<\n\n"
+      return
+    end
+    create_person_object(select_person)
+  end
+
   def actions
     print "\n[Input] > "
     user_input = gets.chomp
