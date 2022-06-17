@@ -23,6 +23,16 @@ class App
     print "5. Create a rental\n6. List all rentals for a given person id\n7. Exit\n"
   end
 
+  def create_book
+    print 'Title: '
+    title = gets.chomp
+    print 'Author: '
+    author = gets.chomp
+
+    @book << Book.new(title, author)
+    puts "\n> Book crated successfully\n\n"
+  end
+
   def actions
     print "\n[Input] > "
     user_input = gets.chomp
