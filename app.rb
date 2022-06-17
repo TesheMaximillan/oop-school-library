@@ -96,7 +96,7 @@ class App
 
     return if @teacher.empty?
 
-    j = student.length
+    j = @student.length
     @teacher.each_with_index do |p, i|
       puts "#{i + j}) [Teacher] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
     end
