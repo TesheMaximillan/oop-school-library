@@ -3,6 +3,7 @@ require_relative 'teacher'
 require_relative 'book'
 require_relative 'rental'
 require_relative 'utility'
+require 'pry'
 
 class App
   attr_reader :teacher, :student, :book, :rentals
@@ -22,8 +23,9 @@ class App
     puts "\nPlease choose an option by entering a number:"
     45.times { print '-' }
     puts "\n"
-    print "1. List all books\n2. List all people\n3. Create a person\n4. Create a book\n"
-    print "5. Create a rental\n6. List all rentals for a given person id\n7. Exit\n"
+    print "1. List all books\n2. List all people\n3. Create a person\n" \
+          "4. Create a book\n5. Create a rental\n6. List all rentals for" \
+          "a given person id\n7. Exit\n"
   end
 
   def create_book
@@ -37,7 +39,7 @@ class App
   end
 
   def display_book
-    return if @book.empty?
+    @book.empty? && return
 
     puts
     @book.each { |b| puts "Title: #{b.title}\t\tAuthor: #{b.author}" }
@@ -45,14 +47,13 @@ class App
   end
 
   def create_person_object(person_type)
-    age = proper_age
+    age = proper_age?
     print 'Name: '
     name = gets.chomp
 
     if person_type == '1'
       print 'Has parent permission? [Y/N]: '
-      permission = gets.chomp.downcase
-      permission = permission != 'n'
+      permission = permission?
       print 'Classroom: '
       classroom = gets.chomp
       @student << Student.new(age, classroom, permission, name)
@@ -86,15 +87,15 @@ class App
   def create_rental
     person = []
     person.concat(@student).concat(@teacher)
-    return if @book.empty? || person.empty?
+    (@book.empty? || person.empty?) && return
 
     puts 'Select a book from the following list by number'
     rental_book_menu
-    selected_book = check_book_availability.to_i
+    selected_book = book_available?.to_i
 
     puts 'Select a person from the following list by number (not id)'
     rental_person_menu(person)
-    selected_person = check_person_availability.to_i
+    selected_person = person_available?.to_i
 
     print "\nDate: "
     date = gets.chomp
@@ -107,47 +108,42 @@ class App
     id = gets.chomp.to_i
     puts 'Rentals:'
     @rentals.each do |rent|
-      next if rent.person.id != id
+      rent.person.id != id && next
 
       puts "Date: #{rent.date}, Book \"#{rent.book.title}\" by #{rent.book.author}"
     end
   end
 
-  def sub_menu(input)
+  def sub_actions(input)
     case input
-    when '1'
-      display_book
+    when '1' then display_book
     when '2'
       puts
       display_person(@student)
       display_person(@teacher)
       puts
-    when '3'
-      create_person
-    when '4'
-      create_book
-    when '5'
-      create_rental
-    when '6'
-      display_rental
+    when '3' then create_person
+    when '4' then create_book
+    when '5' then create_rental
+    when '6' then display_rental
     end
   end
 
   def actions
     print "\n[Menu] > "
     user_input = gets.chomp
-    sub_menu(user_input)
-    'Exit' if user_input == '7'
+    sub_actions(user_input)
+    user_input == '7' && return
+
+    puts "\n>>>> Please insert a valid number <<<<\n\n" \
+    unless (1..7).to_a.include?(user_input.to_i)
+    actions
   end
 
   def run
-    user_input = ''
     puts "\nWelcome to School library APP!"
-
-    while user_input != 'Exit'
-      menu
-      user_input = actions
-    end
+    menu
+    actions
     puts "\nThank you for using this app!"
   end
 end

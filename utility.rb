@@ -1,5 +1,5 @@
 module Utility
-  def proper_age
+  def proper_age?
     print 'Age: '
     age = gets.chomp
 
@@ -11,7 +11,7 @@ module Utility
     end
   end
 
-  def check_book_availability
+  def book_available?
     selected_book = gets.chomp
 
     loop do
@@ -29,7 +29,7 @@ module Utility
     end
   end
 
-  def check_person_availability
+  def person_available?
     selected_person = gets.chomp
 
     loop do
@@ -47,6 +47,18 @@ module Utility
     end
   end
 
+  def permission?
+    permission = gets.chomp.downcase
+
+    loop do
+      %w[y n].include?(permission) && break
+
+      print "\nPlease insert [Y] or [N]: "
+      permission = gets.chomp.downcase
+    end
+    permission = permission != 'n'
+  end
+
   def rental_book_menu
     @book.each_with_index do |b, i|
       puts "#{i}) Title: #{b.title}\t\tAuthor: #{b.author}"
@@ -54,9 +66,9 @@ module Utility
   end
 
   def rental_person_menu(person)
-    si = @student.length
-    return if person.empty?
+    person.empty? && return
 
+    si = @student.length
     person.each_with_index do |p, i|
       if i < si
         puts "#{i}) [Student] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
