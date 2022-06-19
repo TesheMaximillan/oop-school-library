@@ -17,17 +17,6 @@ class App
     @rentals = []
   end
 
-  def menu
-    puts
-    45.times { print '=' }
-    puts "\nPlease choose an option by entering a number:"
-    45.times { print '-' }
-    puts "\n"
-    print "1. List all books\n2. List all people\n3. Create a person\n" \
-          "4. Create a book\n5. Create a rental\n6. List all rentals for" \
-          "a given person id\n7. Exit\n"
-  end
-
   def create_book
     print 'Title: '
     title = gets.chomp
@@ -133,17 +122,9 @@ class App
     print "\n[Menu] > "
     user_input = gets.chomp
     sub_actions(user_input)
-    user_input == '7' && return
+    return 'exit' if user_input == '7'
 
     puts "\n>>>> Please insert a valid number <<<<\n\n" \
     unless (1..7).to_a.include?(user_input.to_i)
-    actions
-  end
-
-  def run
-    puts "\nWelcome to School library APP!"
-    menu
-    actions
-    puts "\nThank you for using this app!"
   end
 end
