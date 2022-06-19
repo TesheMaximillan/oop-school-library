@@ -28,7 +28,7 @@ class App
   end
 
   def display_book
-    @book.empty? && return
+    return puts "\n>>>> No books available<<<" if @book.empty?
 
     puts
     @book.each { |b| puts "Title: #{b.title}\t\tAuthor: #{b.author}" }
@@ -68,7 +68,7 @@ class App
     type = '[Student]'
     type = '[Teacher]' unless person == @student
 
-    return if person.empty?
+    return puts "\n>>>> No books available<<<" if person.empty?
 
     person.each { |p| puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}" }
   end
@@ -121,10 +121,10 @@ class App
   def actions
     print "\n[Menu] > "
     user_input = gets.chomp
-    sub_actions(user_input)
-    return 'exit' if user_input == '7'
+    return true if user_input == '7'
 
     puts "\n>>>> Please insert a valid number <<<<\n\n" \
     unless (1..7).to_a.include?(user_input.to_i)
+    sub_actions(user_input)
   end
 end

@@ -3,10 +3,11 @@ require_relative 'app'
 class Main
   def run
     puts "\nWelcome to School library APP!"
+    app_exit = false
 
-    until 'Exit'
+    until app_exit
       menu
-      App.new.actions
+      app_exit = App.new.actions
     end
     puts "\nThank you for using this app!"
   end
