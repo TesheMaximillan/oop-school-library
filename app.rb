@@ -24,7 +24,7 @@ class App
     author = gets.chomp
 
     @book << Book.new(title, author)
-    puts "\n> Book crated successfully\n\n"
+    puts "\n> Book created successfully\n\n"
   end
 
   def display_book
