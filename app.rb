@@ -17,13 +17,17 @@ class App
     @rentals = []
   end
 
-  def create_book
+  def book_input
     print 'Title: '
     title = gets.chomp
     print 'Author: '
     author = gets.chomp
+    [title, author]
+  end
 
-    @book << Book.new(title, author)
+  def create_book
+    user_input = book_input
+    @book << Book.new(user_input.first, user_input.last)
     puts "\n> Book created successfully\n\n"
   end
 
@@ -35,21 +39,29 @@ class App
     puts
   end
 
-  def create_person_object(person_type)
-    age = proper_age?
+  def person_input(person_type)
     print 'Name: '
     name = gets.chomp
-
     if person_type == '1'
       print 'Has parent permission? [Y/N]: '
       permission = permission?
       print 'Classroom: '
       classroom = gets.chomp
-      @student << Student.new(age, classroom, permission, name)
+      [name, permission, classroom]
     else
       print 'Specialization: '
       specialization = gets.chomp
-      @teacher << Teacher.new(age, specialization, true, name)
+      [name, specialization]
+    end
+  end
+
+  def create_person_object(person_type)
+    age = proper_age?
+    user_input = person_input(person_type)
+    if person_type == '1'
+      @student << Student.new(age, user_input.last, user_input[1], user_input.first)
+    else
+      @teacher << Teacher.new(age, user_input.last, true, user_input.first)
     end
     puts "\n> Person crated successfully\n\n"
   end
@@ -76,10 +88,7 @@ class App
     end
   end
 
-  def create_rental
-    person = @student.concat(@teacher)
-    (@book.empty? || person.empty?) && return
-
+  def rental_input(person)
     puts 'Select a book from the following list by number'
     rental_book_menu
     selected_book = book_available?.to_i
@@ -90,7 +99,15 @@ class App
 
     print "\nDate: "
     date = gets.chomp
-    @rentals << Rental.new(date, @book[selected_book], person[selected_person])
+    [selected_book, selected_person, date]
+  end
+
+  def create_rental
+    person = @student.concat(@teacher)
+    (@book.empty? || person.empty?) && return
+
+    user_input = rental_input(person)
+    @rentals << Rental.new(user_input.last, @book[user_input.first], person[user_input[1]])
     puts "\n> Rental crated successfully\n\n"
   end
 
