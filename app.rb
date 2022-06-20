@@ -68,9 +68,10 @@ class App
     person = @student.concat(@teacher)
     return puts "\n>>>> No Person available<<<" if person.empty?
 
-    person.each_with_index do |p, i|
+    puts
+    person.each do |p|
       type = '[Student]'
-      type = '[Teacher]' if p.class == Teacher
+      type = '[Teacher]' if p.instance_of?(Teacher)
       puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
     end
   end
