@@ -1,13 +1,18 @@
 require_relative 'app'
 
 class Main
+
+  def initialize
+    @app = App.new
+  end
+
   def run
     puts "\nWelcome to School library APP!"
-    app_exit = false
+    actions = 'start'
 
-    until app_exit
+    until actions == 'quit'
       menu
-      app_exit = App.new.actions
+      actions = @app.actions
     end
     puts "\nThank you for using this app!"
   end

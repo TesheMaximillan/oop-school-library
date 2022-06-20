@@ -64,18 +64,19 @@ class App
     create_person_object(select_person)
   end
 
-  def display_person(person)
-    type = '[Student]'
-    type = '[Teacher]' unless person == @student
+  def display_person
+    person = @student.concat(@teacher)
+    return puts "\n>>>> No Person available<<<" if person.empty?
 
-    return puts "\n>>>> No books available<<<" if person.empty?
-
-    person.each { |p| puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}" }
+    person.each_with_index do |p, i|
+      type = '[Student]'
+      type = '[Teacher]' if p.class == Teacher
+      puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
+    end
   end
 
   def create_rental
-    person = []
-    person.concat(@student).concat(@teacher)
+    person = @student.concat(@teacher)
     (@book.empty? || person.empty?) && return
 
     puts 'Select a book from the following list by number'
@@ -106,11 +107,7 @@ class App
   def sub_actions(input)
     case input
     when '1' then display_book
-    when '2'
-      puts
-      display_person(@student)
-      display_person(@teacher)
-      puts
+    when '2' then display_person
     when '3' then create_person
     when '4' then create_book
     when '5' then create_rental
@@ -121,7 +118,7 @@ class App
   def actions
     print "\n[Menu] > "
     user_input = gets.chomp
-    return true if user_input == '7'
+    return 'quit' if user_input == '7'
 
     puts "\n>>>> Please insert a valid number <<<<\n\n" \
     unless (1..7).to_a.include?(user_input.to_i)
