@@ -4,6 +4,7 @@ require_relative 'book'
 require_relative 'rental'
 require_relative 'utility'
 require 'pry'
+require 'json'
 
 class App
   attr_reader :teacher, :student, :book, :rentals
@@ -122,6 +123,14 @@ class App
     end
   end
 
+  def exit_program
+    print 'Exiting Program.... '
+    book_json = []
+    @book.each { |b| book_json<< JSON.generate(b)  }
+    File.write("books.json", book_json)
+    puts "Json Data gotten of Class : #{book_json.class}"
+  end
+
   def sub_actions(input)
     case input
     when '1' then display_book
@@ -130,16 +139,17 @@ class App
     when '4' then create_book
     when '5' then create_rental
     when '6' then display_rental
+    when '7' then exit_program
     end
   end
 
   def actions
     print "\n[Menu] > "
     user_input = gets.chomp
-    return 'quit' if user_input == '7'
+    # return 'quit' if user_input == '7'
 
     puts "\n>>>> Please insert a valid number <<<<\n\n" \
-    unless (1..7).to_a.include?(user_input.to_i)
+    unless (1..8).to_a.include?(user_input.to_i)
     sub_actions(user_input)
   end
 end
