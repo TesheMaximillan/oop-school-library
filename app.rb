@@ -12,9 +12,10 @@ class App
   include Utility
 
   def initialize
+    
     @teacher = []
     @student = []
-    @book = []
+    @book = read_books
     @rentals = []
   end
 
@@ -29,6 +30,7 @@ class App
   def create_book
     user_input = book_input
     @book << Book.new(user_input.first, user_input.last)
+    preserve_books
     puts "\n> Book created successfully\n\n"
   end
 
@@ -118,17 +120,8 @@ class App
     puts 'Rentals:'
     @rentals.each do |rent|
       rent.person.id != id && next
-
       puts "Date: #{rent.date}, Book \"#{rent.book.title}\" by #{rent.book.author}"
     end
-  end
-
-  def exit_program
-    print 'Exiting Program.... '
-    book_json = []
-    @book.each { |b| book_json<< JSON.generate(b)  }
-    File.write("books.json", book_json)
-    puts "Json Data gotten of Class : #{book_json.class}"
   end
 
   def sub_actions(input)
@@ -139,14 +132,13 @@ class App
     when '4' then create_book
     when '5' then create_rental
     when '6' then display_rental
-    when '7' then exit_program
     end
   end
 
   def actions
     print "\n[Menu] > "
     user_input = gets.chomp
-    # return 'quit' if user_input == '7'
+    return 'quit' if user_input == '7'
 
     puts "\n>>>> Please insert a valid number <<<<\n\n" \
     unless (1..8).to_a.include?(user_input.to_i)

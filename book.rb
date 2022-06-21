@@ -3,7 +3,7 @@ class Book
   attr_accessor :title, :author
   attr_reader :rentals
 
-  def initialize(title, author)
+  def initialize(title, author,rentals=[])
     @title = title
     @author = author
     @rentals = []
@@ -13,12 +13,12 @@ class Book
     {
       title: @title,
       author: @author,
-      rentals: @rentals
+      rentals: @rentals,
     }
   end
 
   def to_json(*options)
-    as_json(*options).to_json(*options)
+    JSON.pretty_generate(as_json(*options))
   end
   
 end
