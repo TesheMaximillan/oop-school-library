@@ -7,15 +7,17 @@ require 'pry'
 require 'json'
 
 class App
-  attr_reader :person, :book, :rentals, :person_path
+  attr_reader :person, :book, :rentals, :person_path, :books_path, :rentals_path
 
   include Utility
 
   def initialize
     @person_path = 'person.json'
-    @person = get_data(@person_path)
-    @book = []
-    @rentals = []
+    @books_path = 'books.json'
+    @rentals_path = 'rentals.json'
+    @person = get_data(@person_path, 'person')
+    @book = get_data(@books_path, 'book')
+    @rentals = get_data(@rentals_path, 'rentals')
   end
 
   def book_input
@@ -29,7 +31,7 @@ class App
   def create_book
     user_input = book_input
     @book << Book.new(user_input.first, user_input.last)
-    preserve_books
+    preserve_data(@books_path, @book)
     puts "\n> Book created successfully\n\n"
   end
 
@@ -83,18 +85,18 @@ class App
     return puts "\n>>>> No Person available<<<" if @person.empty?
 
     puts
-      get_data(@person_path).each do |p|
-      puts "#{p['type']} Name: #{p['name']}\t\tID: #{p['id']}\t\tAge: #{p['age']}"
+    @person.each do |p|
+      puts "#{p.class} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
     end
   end
 
-  def rental_input(person)
+  def rental_input
     puts 'Select a book from the following list by number'
     rental_book_menu
     selected_book = book_available?.to_i
 
     puts 'Select a person from the following list by number (not id)'
-    rental_person_menu(person)
+    rental_person_menu
     selected_person = person_available?.to_i
 
     print "\nDate: "
@@ -103,11 +105,10 @@ class App
   end
 
   def create_rental
-    person = @student.concat(@teacher)
-    (@book.empty? || person.empty?) && return
+    (@book.empty? || @person.empty?) && return
 
-    user_input = rental_input(person)
-    @rentals << Rental.new(user_input.last, @book[user_input.first], person[user_input[1]])
+    user_input = rental_input
+    @rentals << Rental.new(user_input.last, @book[user_input.first], @person[user_input[1]])
     puts "\n> Rental crated successfully\n\n"
   end
 

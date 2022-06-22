@@ -1,8 +1,9 @@
 [
-  "{\"type\":\"[Teacher]\",\"id\":918,\"age\":\"25\",\"name\":\"fdf\",\"parent_permission\":true,\"rentals\":[],\"specialization\":\"b\"}",
-  "{\"type\":\"[Student]\",\"id\":242,\"age\":\"25\",\"name\":\"mnn\",\"parent_permission\":false,\"rentals\":[],\"classroom\":\"b\"}",
-  "{\"type\":\"[Student]\",\"id\":918,\"age\":\"52\",\"name\":\"fdasdf\",\"parent_permission\":false,\"rentals\":[],\"classroom\":\"b\"}",
-  "{\"type\":\"[Student]\",\"id\":841,\"age\":\"25\",\"name\":\"fadsf\",\"parent_permission\":false,\"rentals\":[],\"classroom\":\"b\"}",
-  "{\"type\":\"[Teacher]\",\"id\":460,\"age\":\"25\",\"name\":\"vdfs\",\"parent_permission\":true,\"rentals\":[],\"specialization\":\"asdf\"}",
-  "{\n  \"type\": \"[Teacher]\",\n  \"id\": 556,\n  \"age\": \"98\",\n  \"name\": \"Tasfads\",\n  \"parent_permission\": true,\n  \"rentals\": [\n\n  ],\n  \"specialization\": \"bsfd\"\n}"
+  "{\n  \"type\": \"[Teacher]\",\n  \"id\": 750,\n  \"age\": \"25\",\n  \"name\": \"fdf\",\n  \"parent_permission\": true,\n  \"rentals\": [\n\n  ],\n  \"specialization\": \"b\"\n}",
+  "{\n  \"type\": \"[Teacher]\",\n  \"id\": 634,\n  \"age\": \"25\",\n  \"name\": \"mnn\",\n  \"parent_permission\": false,\n  \"rentals\": [\n\n  ],\n  \"specialization\": null\n}",
+  "{\n  \"type\": \"[Teacher]\",\n  \"id\": 794,\n  \"age\": \"52\",\n  \"name\": \"fdasdf\",\n  \"parent_permission\": false,\n  \"rentals\": [\n\n  ],\n  \"specialization\": null\n}",
+  "{\n  \"type\": \"[Teacher]\",\n  \"id\": 569,\n  \"age\": \"25\",\n  \"name\": \"fadsf\",\n  \"parent_permission\": false,\n  \"rentals\": [\n\n  ],\n  \"specialization\": null\n}",
+  "{\n  \"type\": \"[Teacher]\",\n  \"id\": 909,\n  \"age\": \"25\",\n  \"name\": \"vdfs\",\n  \"parent_permission\": true,\n  \"rentals\": [\n\n  ],\n  \"specialization\": \"asdf\"\n}",
+  "{\n  \"type\": \"[Teacher]\",\n  \"id\": 433,\n  \"age\": \"98\",\n  \"name\": \"Tasfads\",\n  \"parent_permission\": true,\n  \"rentals\": [\n\n  ],\n  \"specialization\": \"bsfd\"\n}",
+  "{\n  \"type\": \"[Student]\",\n  \"id\": 322,\n  \"age\": \"25\",\n  \"name\": \"fds\",\n  \"parent_permission\": false,\n  \"rentals\": [\n\n  ],\n  \"classroom\": \"b\"\n}"
 ]

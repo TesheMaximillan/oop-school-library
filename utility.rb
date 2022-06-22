@@ -1,4 +1,5 @@
 require 'json'
+
 module Utility
   def proper_age?
     print 'Age: '
@@ -66,16 +67,11 @@ module Utility
     end
   end
 
-  def rental_person_menu(person)
-    person.empty? && return
+  def rental_person_menu
+    @person.empty? && return
 
-    si = @student.length
-    person.each_with_index do |p, i|
-      if i < si
-        puts "#{i}) [Student] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
-      else
-        puts "#{i}) [Teacher] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
-      end
+    @person.each_with_index do |p, i|
+      puts "#{i}) [#{p.class}] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
     end
   end
 
@@ -85,33 +81,33 @@ module Utility
     File.write(path, JSON.pretty_generate(data_json))
   end
 
-  def get_data(path)
+  def create_obj(preserve_obj, class_type)
+    case class_type
+    when 'person'
+      if preserve_obj['type'] == 'Student'
+        Student.new(preserve_obj['age'], preserve_obj['classroom'],
+                    preserve_obj['parent_permission'], preserve_obj['name'])
+      else
+        Teacher.new(preserve_obj['age'], preserve_obj['specialization'],
+                    preserve_obj['parent_permission'], preserve_obj['name'])
+      end
+    when 'book'
+      Book.new(preserve_obj['title'], preserve_obj['author'], preserve_obj['rentals'])
+    else
+      Rental.new(preserve_obj['date'], preserve_obj['book'], preserve_obj['person'])
+    end
+  end
+
+  def get_data(path, class_type)
     preserve_data = []
     return preserve_data unless File.exist?(path)
+    return preserve_data if File.zero?(path)
 
     data = JSON.parse(File.read(path))
     data.each do |d|
-      preserve_data << JSON.parse(d)
+      preserve_obj = JSON.parse(d)
+      preserve_data << create_obj(preserve_obj, class_type)
     end
     preserve_data
   end
-  
-  def read_books
-    preserved_books = []
-    if File.exists?("books.json")
-      available_books = JSON.parse(File.read("books.json"))
-      available_books.each do |b|
-        book_object = JSON.parse(b)
-        preserved_books<< Book.new(book_object['title'],book_object['author'],book_object['rentals'])
-      end 
-    end
-    return preserved_books
-  end
-
-  def preserve_books
-    book_json = []
-    @book.each { |b| book_json<< b.to_json  }
-    File.write("books.json", JSON.pretty_generate(book_json))
-  end
-
 end
