@@ -101,15 +101,15 @@ class App
 
     print "\nDate: "
     date = gets.chomp
-    [selected_book, selected_person, date]
+    [date, selected_book, selected_person]
   end
 
   def create_rental
     (@book.empty? || @person.empty?) && return
 
     user_input = rental_input
-    @rentals << Rental.new(user_input.last, @book[user_input.first], @person[user_input[1]])
-    # preserve_data(@rentals_path, @rentals)
+    @rentals << Rental.new(user_input[0], @book[user_input[1]], @person[user_input[2]])
+    preserve_data(@rentals_path, @rentals)
     puts "\n> Rental crated successfully\n\n"
   end
 

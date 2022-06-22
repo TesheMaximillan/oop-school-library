@@ -12,11 +12,11 @@ class Rental
     person.rentals << self
   end
 
-  def as_json(_options={})
+  def as_json(_options = {})
     {
       date: @date,
       book: @book,
-      person: @person,
+      person: @person
     }
   end
 
