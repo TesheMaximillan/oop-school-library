@@ -9,4 +9,20 @@ class Teacher < Person
   def can_use_services?
     true
   end
+
+  def as_json(_options = {})
+    {
+      type: '[Teacher]',
+      id: @id,
+      age: @age,
+      name: @name,
+      parent_permission: @parent_permission,
+      rentals: @rentals,
+      specialization: @specialization
+    }
+  end
+
+  def to_json(*options)
+    JSON.pretty_generate(as_json(*options))
+  end
 end

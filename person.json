@@ -1,0 +1,8 @@
+[
+  "{\"type\":\"[Teacher]\",\"id\":918,\"age\":\"25\",\"name\":\"fdf\",\"parent_permission\":true,\"rentals\":[],\"specialization\":\"b\"}",
+  "{\"type\":\"[Student]\",\"id\":242,\"age\":\"25\",\"name\":\"mnn\",\"parent_permission\":false,\"rentals\":[],\"classroom\":\"b\"}",
+  "{\"type\":\"[Student]\",\"id\":918,\"age\":\"52\",\"name\":\"fdasdf\",\"parent_permission\":false,\"rentals\":[],\"classroom\":\"b\"}",
+  "{\"type\":\"[Student]\",\"id\":841,\"age\":\"25\",\"name\":\"fadsf\",\"parent_permission\":false,\"rentals\":[],\"classroom\":\"b\"}",
+  "{\"type\":\"[Teacher]\",\"id\":460,\"age\":\"25\",\"name\":\"vdfs\",\"parent_permission\":true,\"rentals\":[],\"specialization\":\"asdf\"}",
+  "{\n  \"type\": \"[Teacher]\",\n  \"id\": 556,\n  \"age\": \"98\",\n  \"name\": \"Tasfads\",\n  \"parent_permission\": true,\n  \"rentals\": [\n\n  ],\n  \"specialization\": \"bsfd\"\n}"
+]

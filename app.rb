@@ -4,15 +4,16 @@ require_relative 'book'
 require_relative 'rental'
 require_relative 'utility'
 require 'pry'
+require 'json'
 
 class App
-  attr_reader :teacher, :student, :book, :rentals
+  attr_reader :person, :book, :rentals, :person_path
 
   include Utility
 
   def initialize
-    @teacher = []
-    @student = []
+    @person_path = 'person.json'
+    @person = get_data(@person_path)
     @book = []
     @rentals = []
   end
@@ -58,11 +59,12 @@ class App
   def create_person_object(person_type)
     age = proper_age?
     user_input = person_input(person_type)
-    if person_type == '1'
-      @student << Student.new(age, user_input.last, user_input[1], user_input.first)
-    else
-      @teacher << Teacher.new(age, user_input.last, true, user_input.first)
-    end
+    @person << if person_type == '1'
+                 Student.new(age, user_input.last, user_input[1], user_input.first)
+               else
+                 Teacher.new(age, user_input.last, true, user_input.first)
+               end
+    preserve_data(@person_path, @person)
     puts "\n> Person crated successfully\n\n"
   end
 
@@ -77,14 +79,11 @@ class App
   end
 
   def display_person
-    person = @student.concat(@teacher)
-    return puts "\n>>>> No Person available<<<" if person.empty?
+    return puts "\n>>>> No Person available<<<" if @person.empty?
 
     puts
-    person.each do |p|
-      type = '[Student]'
-      type = '[Teacher]' if p.instance_of?(Teacher)
-      puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
+      get_data(@person_path).each do |p|
+      puts "#{p['type']} Name: #{p['name']}\t\tID: #{p['id']}\t\tAge: #{p['age']}"
     end
   end
 

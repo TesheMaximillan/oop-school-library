@@ -1,3 +1,4 @@
+require 'json'
 module Utility
   def proper_age?
     print 'Age: '
@@ -76,5 +77,22 @@ module Utility
         puts "#{i}) [Teacher] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
       end
     end
+  end
+
+  def preserve_data(path, data)
+    data_json = []
+    data.each { |d| data_json << d.to_json }
+    File.write(path, JSON.pretty_generate(data_json))
+  end
+
+  def get_data(path)
+    preserve_data = []
+    return preserve_data unless File.exist?(path)
+
+    data = JSON.parse(File.read(path))
+    data.each do |d|
+      preserve_data << JSON.parse(d)
+    end
+    preserve_data
   end
 end

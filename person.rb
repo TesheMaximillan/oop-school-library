@@ -28,4 +28,18 @@ class Person < Nameable
   def of_age?
     @age >= 18
   end
+
+  def as_json(_options = {})
+    {
+      id: @id,
+      age: @age,
+      name: @name,
+      parent_permission: @parent_permission,
+      rentals: @rentals
+    }
+  end
+
+  def to_json(*options)
+    JSON.pretty_generate(as_json(*options))
+  end
 end
