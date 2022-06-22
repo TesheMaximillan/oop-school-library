@@ -95,4 +95,23 @@ module Utility
     end
     preserve_data
   end
+  
+  def read_books
+    preserved_books = []
+    if File.exists?("books.json")
+      available_books = JSON.parse(File.read("books.json"))
+      available_books.each do |b|
+        book_object = JSON.parse(b)
+        preserved_books<< Book.new(book_object['title'],book_object['author'],book_object['rentals'])
+      end 
+    end
+    return preserved_books
+  end
+
+  def preserve_books
+    book_json = []
+    @book.each { |b| book_json<< b.to_json  }
+    File.write("books.json", JSON.pretty_generate(book_json))
+  end
+
 end

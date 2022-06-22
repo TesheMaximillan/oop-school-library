@@ -29,6 +29,7 @@ class App
   def create_book
     user_input = book_input
     @book << Book.new(user_input.first, user_input.last)
+    preserve_books
     puts "\n> Book created successfully\n\n"
   end
 
@@ -116,7 +117,6 @@ class App
     puts 'Rentals:'
     @rentals.each do |rent|
       rent.person.id != id && next
-
       puts "Date: #{rent.date}, Book \"#{rent.book.title}\" by #{rent.book.author}"
     end
   end
@@ -138,7 +138,7 @@ class App
     return 'quit' if user_input == '7'
 
     puts "\n>>>> Please insert a valid number <<<<\n\n" \
-    unless (1..7).to_a.include?(user_input.to_i)
+    unless (1..8).to_a.include?(user_input.to_i)
     sub_actions(user_input)
   end
 end
