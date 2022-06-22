@@ -109,6 +109,7 @@ class App
 
     user_input = rental_input
     @rentals << Rental.new(user_input.last, @book[user_input.first], @person[user_input[1]])
+    # preserve_data(@rentals_path, @rentals)
     puts "\n> Rental crated successfully\n\n"
   end
 

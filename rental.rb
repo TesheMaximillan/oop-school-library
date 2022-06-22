@@ -11,4 +11,16 @@ class Rental
     @person = person
     person.rentals << self
   end
+
+  def as_json(_options={})
+    {
+      date: @date,
+      book: @book,
+      person: @person,
+    }
+  end
+
+  def to_json(*options)
+    JSON.pretty_generate(as_json(*options))
+  end
 end
