@@ -17,5 +17,10 @@ describe  "Person Tests" do
           expect(@test_person.rentals.empty?) 
        end
 
+       it "should say 'Initiaze With Unkonw Name' when we access Person name" do 
+         test_person1 = Person.new(26,TRUE)
+        expect(test_person1.name) == 'Unknown' 
+     end
+
     end
  end
