@@ -18,9 +18,13 @@ describe  "Person Tests" do
        end
 
        it "should say 'Initiaze With Unkonw Name' when we access Person name" do 
-         test_person1 = Person.new(26,TRUE)
-        expect(test_person1.name) == 'Unknown' 
-     end
+            test_person1 = Person.new(26,TRUE)
+            expect(test_person1.name) == 'Unknown' 
+        end
+
+        it "should say 'Test Person Id' when we access Person Id" do 
+            expect(@test_person.id.nil?)
+        end
 
     end
  end
