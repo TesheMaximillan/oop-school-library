@@ -15,9 +15,9 @@ class App
     @person_path = 'person.json'
     @books_path = 'books.json'
     @rentals_path = 'rentals.json'
-    @person = get_data(@person_path, 'person')
     @book = get_data(@books_path, 'book')
-    @rentals = get_data(@rentals_path, 'rentals')
+    @person = get_data(@person_path, 'person')
+    @rentals = []
   end
 
   def book_input
@@ -31,7 +31,7 @@ class App
   def create_book
     user_input = book_input
     @book << Book.new(user_input.first, user_input.last)
-    preserve_data(@books_path, @book)
+    preserve_data(@books_path, @book, 'books')
     puts "\n> Book created successfully\n\n"
   end
 
@@ -67,7 +67,7 @@ class App
                else
                  Teacher.new(age, user_input.last, true, user_input.first)
                end
-    preserve_data(@person_path, @person)
+    preserve_data(@person_path, @person, 'persons')
     puts "\n> Person crated successfully\n\n"
   end
 
@@ -109,12 +109,13 @@ class App
 
     user_input = rental_input
     @rentals << Rental.new(user_input[0], @book[user_input[1]], @person[user_input[2]])
-    preserve_data(@rentals_path, @rentals)
     puts "\n> Rental crated successfully\n\n"
   end
 
   def display_rental
-    print 'ID of person: '
+    print 'Please choose ID from here:  '
+    @rentals.each { |r| print "| #{r.person.id} |  " }
+    print "\nID of person: "
     id = gets.chomp.to_i
     puts 'Rentals:'
     @rentals.each do |rent|
@@ -140,7 +141,7 @@ class App
     return 'quit' if user_input == '7'
 
     puts "\n>>>> Please insert a valid number <<<<\n\n" \
-    unless (1..8).to_a.include?(user_input.to_i)
+    unless (1..7).to_a.include?(user_input.to_i)
     sub_actions(user_input)
   end
 end

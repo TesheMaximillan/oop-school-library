@@ -3,8 +3,8 @@ require_relative 'capitalize_decorator'
 require_relative 'trimmer_decorator'
 
 class Person < Nameable
-  attr_accessor :name, :age
-  attr_reader :id, :rentals
+  attr_accessor :name, :age, :parent_permission, :rentals
+  attr_reader :id
 
   def initialize(age, parent_permission, name = 'Unknown')
     @id = Random.rand(1..1000)
