@@ -3,18 +3,23 @@ require_relative 'teacher'
 require_relative 'book'
 require_relative 'rental'
 require_relative 'utility'
+require_relative 'preserve_data'
 require 'pry'
+require 'json'
 
 class App
-  attr_reader :teacher, :student, :book, :rentals
+  attr_reader :person, :book, :rentals, :person_path, :books_path, :rentals_path
 
   include Utility
+  include PreserveData
 
   def initialize
-    @teacher = []
-    @student = []
-    @book = []
-    @rentals = []
+    @person_path = 'person.json'
+    @books_path = 'books.json'
+    @rentals_path = 'rentals.json'
+    @book = get_data(@books_path, 'book')
+    @person = get_data(@person_path, 'person')
+    @rentals = get_data(@rentals_path, 'rentals')
   end
 
   def book_input
@@ -28,6 +33,7 @@ class App
   def create_book
     user_input = book_input
     @book << Book.new(user_input.first, user_input.last)
+    preserve_data(@books_path, @book, 'books')
     puts "\n> Book created successfully\n\n"
   end
 
@@ -58,11 +64,12 @@ class App
   def create_person_object(person_type)
     age = proper_age?
     user_input = person_input(person_type)
-    if person_type == '1'
-      @student << Student.new(age, user_input.last, user_input[1], user_input.first)
-    else
-      @teacher << Teacher.new(age, user_input.last, true, user_input.first)
-    end
+    @person << if person_type == '1'
+                 Student.new(age, user_input.last, user_input[1], user_input.first)
+               else
+                 Teacher.new(age, user_input.last, true, user_input.first)
+               end
+    preserve_data(@person_path, @person, 'persons')
     puts "\n> Person crated successfully\n\n"
   end
 
@@ -77,47 +84,45 @@ class App
   end
 
   def display_person
-    person = @student.concat(@teacher)
-    return puts "\n>>>> No Person available<<<" if person.empty?
+    return puts "\n>>>> No Person available<<<" if @person.empty?
 
     puts
-    person.each do |p|
-      type = '[Student]'
-      type = '[Teacher]' if p.instance_of?(Teacher)
-      puts "#{type} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
+    @person.each do |p|
+      puts "#{p.class} Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
     end
   end
 
-  def rental_input(person)
+  def rental_input
     puts 'Select a book from the following list by number'
     rental_book_menu
     selected_book = book_available?.to_i
 
     puts 'Select a person from the following list by number (not id)'
-    rental_person_menu(person)
+    rental_person_menu
     selected_person = person_available?.to_i
 
     print "\nDate: "
     date = gets.chomp
-    [selected_book, selected_person, date]
+    [date, selected_book, selected_person]
   end
 
   def create_rental
-    person = @student.concat(@teacher)
-    (@book.empty? || person.empty?) && return
+    (@book.empty? || @person.empty?) && return
 
-    user_input = rental_input(person)
-    @rentals << Rental.new(user_input.last, @book[user_input.first], person[user_input[1]])
+    user_input = rental_input
+    @rentals << Rental.new(user_input[0], @book[user_input[1]], @person[user_input[2]])
+    preserve_data(@rentals_path, user_input, 'rentals')
     puts "\n> Rental crated successfully\n\n"
   end
 
   def display_rental
-    print 'ID of person: '
+    print 'Please choose ID from here:  '
+    @rentals.each { |r| print "| #{r.person.id} |  " }
+    print "\nID of person: "
     id = gets.chomp.to_i
     puts 'Rentals:'
     @rentals.each do |rent|
       rent.person.id != id && next
-
       puts "Date: #{rent.date}, Book \"#{rent.book.title}\" by #{rent.book.author}"
     end
   end

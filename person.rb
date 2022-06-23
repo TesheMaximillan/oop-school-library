@@ -3,8 +3,8 @@ require_relative 'capitalize_decorator'
 require_relative 'trimmer_decorator'
 
 class Person < Nameable
-  attr_accessor :name, :age
-  attr_reader :id, :rentals
+  attr_accessor :name, :age, :parent_permission, :rentals
+  attr_reader :id
 
   def initialize(age, parent_permission, name = 'Unknown')
     @id = Random.rand(1..1000)
@@ -27,5 +27,19 @@ class Person < Nameable
 
   def of_age?
     @age >= 18
+  end
+
+  def as_json(_options = {})
+    {
+      id: @id,
+      age: @age,
+      name: @name,
+      parent_permission: @parent_permission,
+      rentals: @rentals
+    }
+  end
+
+  def to_json(*options)
+    JSON.pretty_generate(as_json(*options))
   end
 end

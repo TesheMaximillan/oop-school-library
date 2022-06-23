@@ -37,7 +37,7 @@ module Utility
         puts "\n>>>> Please insert a number <<<<\n\n"
         print '[Person #]: '
         selected_person = gets.chomp
-      elsif selected_person.to_i.negative? || selected_person.to_i >= @student.length + @teacher.length
+      elsif selected_person.to_i.negative? || selected_person.to_i >= @person.length
         puts "\n>>>> Please insert a valid number <<<<\n\n"
         print '[Person #]: '
         selected_person = gets.chomp
@@ -65,16 +65,11 @@ module Utility
     end
   end
 
-  def rental_person_menu(person)
-    person.empty? && return
+  def rental_person_menu
+    @person.empty? && return
 
-    si = @student.length
-    person.each_with_index do |p, i|
-      if i < si
-        puts "#{i}) [Student] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
-      else
-        puts "#{i}) [Teacher] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
-      end
+    @person.each_with_index do |p, i|
+      puts "#{i}) [#{p.class}] Name: #{p.name}\t\tID: #{p.id}\t\tAge: #{p.age}"
     end
   end
 end
