@@ -3,6 +3,7 @@ require_relative 'teacher'
 require_relative 'book'
 require_relative 'rental'
 require_relative 'utility'
+require_relative 'preserve_data'
 require 'pry'
 require 'json'
 
@@ -10,6 +11,7 @@ class App
   attr_reader :person, :book, :rentals, :person_path, :books_path, :rentals_path
 
   include Utility
+  include PreserveData
 
   def initialize
     @person_path = 'person.json'
@@ -17,7 +19,7 @@ class App
     @rentals_path = 'rentals.json'
     @book = get_data(@books_path, 'book')
     @person = get_data(@person_path, 'person')
-    @rentals = []
+    @rentals = get_data(@rentals_path, 'rentals')
   end
 
   def book_input
@@ -109,6 +111,7 @@ class App
 
     user_input = rental_input
     @rentals << Rental.new(user_input[0], @book[user_input[1]], @person[user_input[2]])
+    preserve_data(@rentals_path, user_input, 'rentals')
     puts "\n> Rental crated successfully\n\n"
   end
 
